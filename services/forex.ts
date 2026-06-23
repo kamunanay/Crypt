@@ -33,6 +33,7 @@ export async function getForexRates(): Promise<ForexData> {
 }
 
 function getFallbackData(): ForexData {
+   return { 
     usdIdr: 17863.85,
     eurIdr: 17603.21, 
     gbpIdr: 20651.32, 
