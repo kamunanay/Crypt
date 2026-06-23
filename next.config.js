@@ -1,14 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Static export untuk Cloudflare Pages
+  output: 'export',
   images: {
     unoptimized: true,
   },
-  experimental: {
-    // optimizeCss: false, // nonaktifkan karena static export
+  transpilePackages: ['three'],
+};
+
+module.exports = nextConfig;/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
   },
   transpilePackages: ['three'],
-  // Hilangkan webpack externals karena tidak diperlukan di static
 };
 
 module.exports = nextConfig;
