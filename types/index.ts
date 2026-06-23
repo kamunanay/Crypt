@@ -5,17 +5,3 @@ export interface ForexData {
   jpyIdr: number;
   audIdr: number;
 }
-
-export interface CryptoPrice {
-  id: string;
-  symbol: string;
-  price: number;
-  change24h: number;
-  changePercent24h: number;
-}
-
-export interface GoldPrice {
-  price: number;
-  change: number;
-  changePercent: number;
-}
