@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCryptoPrices } from '../../../services/crypto';
 import CardPremium from '../../../components/ui/card-premium';
 import PriceChart from '../../../components/charts/price-chart';
+import CoinDisplay from '../../../components/ui/coin-display';
 
 export default function CryptoDetailClient({ symbol }: { symbol: string }) {
   const { data, isLoading } = useQuery({
@@ -12,31 +13,33 @@ export default function CryptoDetailClient({ symbol }: { symbol: string }) {
     refetchInterval: 30000,
   });
 
-  const cryptoMap: Record<string, { id: string; color: string }> = {
-    btc: { id: 'bitcoin', color: '#f7931a' },
-    eth: { id: 'ethereum', color: '#627eea' },
-    sol: { id: 'solana', color: '#9945ff' },
-    xrp: { id: 'ripple', color: '#00aae4' },
-    bnb: { id: 'bnb', color: '#f3ba2f' },
+  const cryptoMap: Record<string, { id: string; color: string; label: string }> = {
+    btc: { id: 'bitcoin', color: '#f7931a', label: 'Bitcoin' },
+    eth: { id: 'ethereum', color: '#627eea', label: 'Ethereum' },
+    sol: { id: 'solana', color: '#9945ff', label: 'Solana' },
+    xrp: { id: 'ripple', color: '#00aae4', label: 'Ripple' },
+    bnb: { id: 'bnb', color: '#f3ba2f', label: 'BNB' },
   };
 
   const info = cryptoMap[symbol.toLowerCase()];
   const priceData = info ? data?.[info.id] : null;
 
   return (
-    <div className="pt-[88px] px-4 md:px-8 pb-12 max-w-7xl mx-auto">
-      <div className="flex items-center gap-4">
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold"
-          style={{ background: `${info?.color}20`, color: info?.color }}
-        >
-          {symbol.toUpperCase()}
-        </div>
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold">
+    <div className="pt-[88px] px-4 md:px-8 pb-12 max-w-7xl mx-auto bg-gradient-dark min-h-screen">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+        <div className="flex-1">
+          <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold">
             {symbol.toUpperCase()} / USD
           </h1>
-          <p className="text-white/40">{info?.id}</p>
+          <p className="text-white/40 mt-1 text-lg">{info?.label}</p>
+        </div>
+        <div className="w-[160px] h-[160px] md:w-[200px] md:h-[200px]">
+          <CoinDisplay 
+            symbol={symbol.toUpperCase()} 
+            label={info?.label || ''} 
+            color={info?.color || '#ffffff'} 
+            isCrypto 
+          />
         </div>
       </div>
 
