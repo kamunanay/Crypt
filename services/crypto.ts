@@ -1,9 +1,11 @@
 import axios from 'axios';
+import { CryptoData } from '../types';
 
-export async function getCryptoPrices() {
+export async function getCryptoPrices(): Promise<CryptoData> {
   try {
     const response = await axios.get(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,bnb&vs_currencies=usd&include_24hr_change=true'
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,bnb&vs_currencies=usd&include_24hr_change=true',
+      { timeout: 10000 }
     );
     return response.data;
   } catch (error) {
