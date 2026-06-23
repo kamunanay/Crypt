@@ -13,7 +13,3 @@ export function formatPrice(price: number, currency: string = 'IDR') {
     maximumFractionDigits: 0,
   }).format(price);
 }
-
-export function formatChange(change: number) {
-  return `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
-}
