@@ -14,14 +14,60 @@
 }
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  body { @apply bg-background text-foreground; overflow-x: hidden; }
+  html { scroll-behavior: smooth; }
 }
+
 @layer utilities {
-  .glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
-  .glass-dark { background: rgba(0,0,0,0.5); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.05); }
+  .glass {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .glass-gold {
+    background: rgba(245, 200, 66, 0.08);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(245, 200, 66, 0.15);
+  }
   .text-gold { color: #f5c842; }
+  .bg-gold { background: #f5c842; }
+  .border-gold { border-color: #f5c842; }
+  .shadow-gold { box-shadow: 0 0 60px rgba(245, 200, 66, 0.15); }
+  .shadow-gold-lg { box-shadow: 0 0 120px rgba(245, 200, 66, 0.08); }
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f5c842, #d4a020, #f5c842, #d4a020);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+  }
+  .text-gradient-white {
+    background: linear-gradient(135deg, #ffffff, rgba(255,255,255,0.6), #ffffff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .bg-gradient-dark {
+    background: radial-gradient(ellipse at 30% 20%, #1a1f3a, #070912);
+  }
+  .bg-gradient-gold {
+    background: radial-gradient(ellipse at 50% 50%, rgba(245, 200, 66, 0.1), transparent 70%);
+  }
 }
+
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
 ::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.4); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,215,0,0.7); }
+
+::selection { background: rgba(245, 200, 66, 0.3); color: #fff; }
