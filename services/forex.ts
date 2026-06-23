@@ -13,7 +13,7 @@ export async function getForexRates(): Promise<ForexData> {
     }
 
     const rates = response.data.rates;
-    const usdIdr = rates.IDR || 16322.45;
+    const usdIdr = rates.IDR || 17863.85;
     const eurRate = rates.EUR || 1;
     const gbpRate = rates.GBP || 1;
     const jpyRate = rates.JPY || 1;
@@ -33,8 +33,7 @@ export async function getForexRates(): Promise<ForexData> {
 }
 
 function getFallbackData(): ForexData {
-  return { 
-    usdIdr: 16322.45, 
+    usdIdr: 17863.85,
     eurIdr: 17603.21, 
     gbpIdr: 20651.32, 
     jpyIdr: 104.52, 
