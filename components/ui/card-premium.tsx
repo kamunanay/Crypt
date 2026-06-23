@@ -32,40 +32,55 @@ export default function CardPremium({
 }: CardPremiumProps) {
   return (
     <motion.div
-      whileHover={{ scale: 1.02, y: -4 }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ scale: 1.02, y: -6 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       onClick={onClick}
       className={cn(
         'relative overflow-hidden rounded-2xl p-6 transition-all duration-300 cursor-pointer',
         'bg-white/5 backdrop-blur-xl border border-white/5',
-        'hover:border-white/10 hover:bg-white/8',
-        gold && 'border-[#f5c842]/20 hover:border-[#f5c842]/40',
+        'hover:border-white/15 hover:bg-white/8',
+        gold && 'border-gold/20 hover:border-gold/40 hover:shadow-gold',
         large && 'p-8',
         className
       )}
     >
-      {gold && <div className="absolute top-0 right-0 w-32 h-32 bg-[#f5c842]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />}
-      <div className="relative">
+      {gold && (
+        <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      )}
+      
+      <div className="relative z-10">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold" style={{ color }}>{title}</h3>
             {subtitle && <p className="text-sm text-white/40">{subtitle}</p>}
           </div>
-          {gold && <span className="text-2xl">🏆</span>}
+          {gold && <span className="text-3xl animate-glow">🏆</span>}
         </div>
+
         <div className="mt-3">
           {loading ? (
             <div className="h-8 w-32 bg-white/5 rounded animate-pulse" />
           ) : (
-            <p className={cn('text-3xl font-bold', large && 'text-4xl md:text-5xl')}>{value}</p>
+            <p className={cn('text-3xl font-bold tracking-tight', large && 'text-4xl md:text-5xl')}>
+              {value}
+            </p>
           )}
         </div>
+
         {change && (
           <div className="mt-2">
-            <span className={cn('text-sm font-medium', positive ? 'text-green-400' : 'text-red-400')}>{change}</span>
+            <span className={cn(
+              'text-sm font-medium px-2 py-1 rounded-full',
+              positive ? 'text-green-400 bg-green-400/10' : 'text-red-400 bg-red-400/10'
+            )}>
+              {change}
+            </span>
           </div>
         )}
       </div>
+
+      {/* Glow effect on hover */}
+      <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
     </motion.div>
   );
 }
