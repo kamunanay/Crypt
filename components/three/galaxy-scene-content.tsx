@@ -101,7 +101,7 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
     ctx.shadowColor = 'rgba(0,0,0,0.5)';
     ctx.fillText(asset.label, 256, 340);
 
-    // Reflection highlight
+    // Highlight reflection
     const highlight = ctx.createRadialGradient(160, 160, 10, 180, 180, 150);
     highlight.addColorStop(0, 'rgba(255,255,255,0.4)');
     highlight.addColorStop(1, 'rgba(255,255,255,0)');
@@ -196,7 +196,6 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
 
     const coinObjects: THREE.Group[] = [];
 
-    // Fungsi membuat koin premium
     const createPremiumCoin = (asset: Asset) => {
       const group = new THREE.Group();
       const size = 0.8;
