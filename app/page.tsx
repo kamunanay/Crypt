@@ -3,23 +3,15 @@
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
-const GalaxyScene = dynamic(() => import('@/components/three/galaxy-scene'), {
-  ssr: false,
-});
+const GalaxyScene = dynamic(() => import('../components/three/galaxy-scene'), { ssr: false });
 
 export default function HomePage() {
   const router = useRouter();
-
   const handleAssetClick = (symbol: string, type: 'forex' | 'crypto' | 'gold') => {
-    if (type === 'forex') {
-      router.push(`/currency/${symbol}`);
-    } else if (type === 'crypto') {
-      router.push(`/crypto/${symbol}`);
-    } else if (type === 'gold') {
-      router.push('/emas');
-    }
+    if (type === 'forex') router.push(`/currency/${symbol}`);
+    else if (type === 'crypto') router.push(`/crypto/${symbol}`);
+    else if (type === 'gold') router.push('/emas');
   };
-
   return (
     <div className="w-screen h-screen overflow-hidden bg-[#070912]">
       <GalaxyScene onAssetClick={handleAssetClick} />
