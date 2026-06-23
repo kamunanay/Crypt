@@ -14,39 +14,22 @@ export default function PriceChart({ symbol, timeframe = '1D' }: PriceChartProps
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
-
     const chart = createChart(chartContainerRef.current, {
-      layout: {
-        background: { type: ColorType.Solid, color: 'rgba(0,0,0,0)' },
-        textColor: 'rgba(255,255,255,0.5)',
-      },
-      grid: {
-        vertLines: { color: 'rgba(255,255,255,0.05)' },
-        horzLines: { color: 'rgba(255,255,255,0.05)' },
-      },
+      layout: { background: { type: ColorType.Solid, color: 'rgba(0,0,0,0)' }, textColor: 'rgba(255,255,255,0.5)' },
+      grid: { vertLines: { color: 'rgba(255,255,255,0.05)' }, horzLines: { color: 'rgba(255,255,255,0.05)' } },
       width: chartContainerRef.current.clientWidth,
       height: 300,
       rightPriceScale: { borderColor: 'rgba(255,255,255,0.1)' },
       timeScale: { borderColor: 'rgba(255,255,255,0.1)', timeVisible: true },
     });
-
     chartRef.current = chart;
-
     const candlestickSeries = chart.addCandlestickSeries({
-      upColor: '#4cd9a0',
-      downColor: '#f87171',
-      borderUpColor: '#4cd9a0',
-      borderDownColor: '#f87171',
-      wickUpColor: '#4cd9a0',
-      wickDownColor: '#f87171',
+      upColor: '#4cd9a0', downColor: '#f87171', borderUpColor: '#4cd9a0', borderDownColor: '#f87171', wickUpColor: '#4cd9a0', wickDownColor: '#f87171',
     });
-
-    // Data dummy
     const data: CandlestickData<Time>[] = [];
     const now = Date.now();
     const day = 24 * 60 * 60 * 1000;
     let price = 16320;
-
     for (let i = 0; i < 30; i++) {
       const change = (Math.random() - 0.5) * 200;
       price += change;
@@ -58,25 +41,16 @@ export default function PriceChart({ symbol, timeframe = '1D' }: PriceChartProps
         close: price,
       });
     }
-
     candlestickSeries.setData(data);
-
     const handleResize = () => {
       if (chartContainerRef.current && chartRef.current) {
-        chartRef.current.applyOptions({
-          width: chartContainerRef.current.clientWidth,
-        });
+        chartRef.current.applyOptions({ width: chartContainerRef.current.clientWidth });
       }
     };
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (chartRef.current) {
-        chartRef.current.remove();
-        chartRef.current = null;
-      }
+      if (chartRef.current) { chartRef.current.remove(); chartRef.current = null; }
     };
   }, [symbol, timeframe]);
 
@@ -86,14 +60,7 @@ export default function PriceChart({ symbol, timeframe = '1D' }: PriceChartProps
         <span className="text-sm font-medium text-white/60">{symbol}</span>
         <div className="flex gap-2">
           {['1D', '1W', '1M', '3M', '1Y'].map((tf) => (
-            <button
-              key={tf}
-              className={`text-xs px-3 py-1 rounded-full transition-colors ${
-                timeframe === tf
-                  ? 'bg-[#f5c842]/20 text-[#f5c842]'
-                  : 'text-white/30 hover:text-white/60'
-              }`}
-            >
+            <button key={tf} className={`text-xs px-3 py-1 rounded-full transition-colors ${timeframe === tf ? 'bg-[#f5c842]/20 text-[#f5c842]' : 'text-white/30 hover:text-white/60'}`}>
               {tf}
             </button>
           ))}
