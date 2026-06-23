@@ -13,6 +13,6 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function Page({ params }: { params: { symbol: string } }) {
+export default function Page({ params }: { params: any }) {
   return <CurrencyDetailClient symbol={params.symbol} />;
 }
