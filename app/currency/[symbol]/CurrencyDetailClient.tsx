@@ -5,6 +5,7 @@ import { getForexRates } from '../../../services/forex';
 import CardPremium from '../../../components/ui/card-premium';
 import PriceChart from '../../../components/charts/price-chart';
 import Converter from '../../../components/ui/converter';
+import CoinDisplay from '../../../components/ui/coin-display';
 
 export default function CurrencyDetailClient({ symbol }: { symbol: string }) {
   const { data, isLoading } = useQuery({
@@ -13,29 +14,33 @@ export default function CurrencyDetailClient({ symbol }: { symbol: string }) {
     refetchInterval: 30000,
   });
 
-  const pairMap: Record<string, { pair: string; rate: number }> = {
-    usd: { pair: 'USD/IDR', rate: data?.usdIdr || 0 },
-    eur: { pair: 'EUR/IDR', rate: data?.eurIdr || 0 },
-    gbp: { pair: 'GBP/IDR', rate: data?.gbpIdr || 0 },
-    jpy: { pair: 'JPY/IDR', rate: data?.jpyIdr || 0 },
-    aud: { pair: 'AUD/IDR', rate: data?.audIdr || 0 },
-    chf: { pair: 'CHF/IDR', rate: data?.usdIdr || 0 },
-    cny: { pair: 'CNY/IDR', rate: data?.usdIdr || 0 },
+  const pairMap: Record<string, { pair: string; rate: number; color: string; label: string }> = {
+    usd: { pair: 'USD/IDR', rate: data?.usdIdr || 0, color: '#f5c842', label: 'Dollar' },
+    eur: { pair: 'EUR/IDR', rate: data?.eurIdr || 0, color: '#4a8fe7', label: 'Euro' },
+    gbp: { pair: 'GBP/IDR', rate: data?.gbpIdr || 0, color: '#2d8b7a', label: 'Pound' },
+    jpy: { pair: 'JPY/IDR', rate: data?.jpyIdr || 0, color: '#d43f3f', label: 'Yen' },
+    aud: { pair: 'AUD/IDR', rate: data?.audIdr || 0, color: '#cc7a3a', label: 'Dollar' },
+    chf: { pair: 'CHF/IDR', rate: data?.usdIdr || 0, color: '#bf1e1e', label: 'Franc' },
+    cny: { pair: 'CNY/IDR', rate: data?.usdIdr || 0, color: '#c41e3a', label: 'Yuan' },
   };
 
   const info = pairMap[symbol.toLowerCase()];
 
   return (
-    <div className="pt-[88px] px-4 md:px-8 pb-12 max-w-7xl mx-auto">
-      <div className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full bg-[#f5c842]/20 flex items-center justify-center text-2xl font-bold text-[#f5c842]">
-          {symbol.toUpperCase()}
-        </div>
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold">
+    <div className="pt-[88px] px-4 md:px-8 pb-12 max-w-7xl mx-auto bg-gradient-dark min-h-screen">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+        <div className="flex-1">
+          <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold">
             {symbol.toUpperCase()} / IDR
           </h1>
-          <p className="text-white/40">{info?.pair}</p>
+          <p className="text-white/40 mt-1 text-lg">{info?.pair}</p>
+        </div>
+        <div className="w-[160px] h-[160px] md:w-[200px] md:h-[200px]">
+          <CoinDisplay 
+            symbol={symbol.toUpperCase()} 
+            label={info?.label || ''} 
+            color={info?.color || '#ffffff'} 
+          />
         </div>
       </div>
 
@@ -46,6 +51,7 @@ export default function CurrencyDetailClient({ symbol }: { symbol: string }) {
           change="+0.14%"
           positive
           loading={isLoading}
+          color={info?.color}
           large
         />
       </div>
