@@ -4,11 +4,18 @@ import './globals.css';
 import { Providers } from './providers';
 import Navbar from '../components/ui/navbar';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'] });
 
 export const metadata: Metadata = {
   title: 'CUKIMAI - World Financial Galaxy',
   description: 'Financial galaxy with 3D interactive assets',
+  keywords: 'forex, crypto, gold, financial, galaxy, 3d, trading',
+  authors: [{ name: 'CUKIMAI' }],
+  openGraph: {
+    title: 'CUKIMAI - World Financial Galaxy',
+    description: 'Financial galaxy with 3D interactive assets',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
