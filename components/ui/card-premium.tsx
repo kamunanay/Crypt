@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 import { motion } from 'framer-motion';
 
 interface CardPremiumProps {
@@ -44,41 +44,25 @@ export default function CardPremium({
         className
       )}
     >
-      {gold && (
-        <div className="absolute top-0 right-0 w-32 h-32 bg-[#f5c842]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      )}
-
+      {gold && <div className="absolute top-0 right-0 w-32 h-32 bg-[#f5c842]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />}
       <div className="relative">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold" style={{ color }}>
-              {title}
-            </h3>
+            <h3 className="text-lg font-semibold" style={{ color }}>{title}</h3>
             {subtitle && <p className="text-sm text-white/40">{subtitle}</p>}
           </div>
           {gold && <span className="text-2xl">🏆</span>}
         </div>
-
         <div className="mt-3">
           {loading ? (
             <div className="h-8 w-32 bg-white/5 rounded animate-pulse" />
           ) : (
-            <p className={cn('text-3xl font-bold', large && 'text-4xl md:text-5xl')}>
-              {value}
-            </p>
+            <p className={cn('text-3xl font-bold', large && 'text-4xl md:text-5xl')}>{value}</p>
           )}
         </div>
-
         {change && (
           <div className="mt-2">
-            <span
-              className={cn(
-                'text-sm font-medium',
-                positive ? 'text-green-400' : 'text-red-400'
-              )}
-            >
-              {change}
-            </span>
+            <span className={cn('text-sm font-medium', positive ? 'text-green-400' : 'text-red-400')}>{change}</span>
           </div>
         )}
       </div>
