@@ -359,6 +359,7 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
 
     renderer.domElement.style.pointerEvents = 'auto';
 
+    // Click handler
     renderer.domElement.addEventListener('click', (event) => {
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -384,6 +385,7 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
       }
     });
 
+    // Hover handler (FIXED — with type guard)
     renderer.domElement.addEventListener('mousemove', (event) => {
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -399,18 +401,21 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
       const intersects = raycaster.intersectObjects(meshes);
       renderer.domElement.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
 
+      // Reset hovered coin
       if (hoveredCoin) {
         const ud = hoveredCoin.userData;
         if (ud?.material) ud.material.emissiveIntensity = 0.08;
         hoveredCoin = null;
       }
+
       if (intersects.length > 0) {
         let parent = intersects[0].object.parent;
         while (parent && !parent.userData?.asset) {
           parent = parent.parent;
         }
-        if (parent) {
-          hoveredCoin = parent;
+        // ✅ TYPE GUARD — pastikan parent adalah Group
+        if (parent && parent.type === 'Group') {
+          hoveredCoin = parent as THREE.Group;
           const ud = parent.userData;
           if (ud?.material) ud.material.emissiveIntensity = 0.5;
         }
