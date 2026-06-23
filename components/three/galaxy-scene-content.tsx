@@ -42,14 +42,12 @@ interface GalaxySceneContentProps {
 export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Fungsi untuk membuat tekstur koin premium
   const createCoinTexture = (asset: Asset): THREE.CanvasTexture => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 512;
     const ctx = canvas.getContext('2d')!;
 
-    // Radial gradient background
     const gradient = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
     const baseColor = new THREE.Color(asset.color);
     const lightColor = baseColor.clone().lerp(new THREE.Color(0xffffff), 0.4);
@@ -62,64 +60,24 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
     ctx.arc(256, 256, 240, 0, Math.PI * 2);
     ctx.fill();
 
-    // Outer ring
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 8;
     ctx.beginPath();
     ctx.arc(256, 256, 230, 0, Math.PI * 2);
     ctx.stroke();
-    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.arc(256, 256, 218, 0, Math.PI * 2);
-    ctx.stroke();
 
-    // Inner emboss
-    for (let r = 200; r > 50; r -= 10) {
-      ctx.strokeStyle = r % 20 === 0 ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(256, 256, r, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-
-    // Currency symbol
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.shadowColor = 'rgba(0,0,0,0.5)';
     ctx.shadowBlur = 15;
-    ctx.shadowOffsetX = 4;
-    ctx.shadowOffsetY = 4;
     ctx.font = 'bold 140px "Inter", "Arial", sans-serif';
     ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(0,0,0,0.7)';
-    ctx.shadowBlur = 20;
-    ctx.fillText(asset.currencySymbol || asset.label, 256, 230);
+    ctx.fillText(asset.currencySymbol || asset.label, 256, 240);
 
-    // Currency code
     ctx.shadowBlur = 10;
     ctx.font = 'bold 48px "Inter", "Arial", sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
     ctx.fillText(asset.label, 256, 340);
-
-    // Highlight reflection
-    const highlight = ctx.createRadialGradient(160, 160, 10, 180, 180, 150);
-    highlight.addColorStop(0, 'rgba(255,255,255,0.4)');
-    highlight.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = highlight;
-    ctx.beginPath();
-    ctx.arc(180, 180, 150, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Glow
-    const glow = ctx.createRadialGradient(256, 256, 20, 256, 256, 100);
-    glow.addColorStop(0, 'rgba(255,255,255,0.15)');
-    glow.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(256, 256, 100, 0, Math.PI * 2);
-    ctx.fill();
 
     return new THREE.CanvasTexture(canvas);
   };
@@ -131,7 +89,6 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
     const width = container.clientWidth;
     const height = container.clientHeight;
 
-    // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x070912);
     scene.fog = new THREE.FogExp2(0x070912, 0.022);
@@ -163,110 +120,65 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
     controls.maxPolarAngle = Math.PI / 2.2;
     controls.minDistance = 5;
     controls.maxDistance = 25;
-    controls.target.set(0, 0, 0);
 
-    // Lights
     const ambient = new THREE.AmbientLight(0x223355, 0.6);
     scene.add(ambient);
     const mainLight = new THREE.DirectionalLight(0xffeedd, 3);
     mainLight.position.set(5, 10, 7);
-    mainLight.castShadow = true;
     scene.add(mainLight);
     const fillLight = new THREE.DirectionalLight(0x4488ff, 0.8);
     fillLight.position.set(-4, 3, -5);
     scene.add(fillLight);
-    const rimLight = new THREE.DirectionalLight(0xffd700, 0.5);
-    rimLight.position.set(0, -3, 8);
-    scene.add(rimLight);
 
     // Stars
     const starsGeo = new THREE.BufferGeometry();
-    const starCount = 2000;
-    const starsPos = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount * 3; i++) {
-      starsPos[i] = (Math.random() - 0.5) * 200;
-    }
+    const starsPos = new Float32Array(2000 * 3);
+    for (let i = 0; i < 2000 * 3; i++) starsPos[i] = (Math.random() - 0.5) * 200;
     starsGeo.setAttribute('position', new THREE.BufferAttribute(starsPos, 3));
-    const starsMat = new THREE.PointsMaterial({
-      color: 0x8899bb,
-      size: 0.15,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending,
-    });
-    scene.add(new THREE.Points(starsGeo, starsMat));
+    scene.add(new THREE.Points(starsGeo, new THREE.PointsMaterial({
+      color: 0x8899bb, size: 0.15, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending,
+    })));
 
     const coinObjects: THREE.Group[] = [];
 
-    const createPremiumCoin = (asset: Asset) => {
+    const createCoin = (asset: Asset) => {
       const group = new THREE.Group();
-      const size = 0.8;
+      const size = 0.7;
       const texture = createCoinTexture(asset);
 
       const material = new THREE.MeshPhysicalMaterial({
         map: texture,
         metalness: 0.85,
         roughness: 0.25,
-        clearcoat: 0.4,
-        clearcoatRoughness: 0.2,
-        reflectivity: 1,
-        envMapIntensity: 1.8,
+        clearcoat: 0.3,
+        clearcoatRoughness: 0.3,
+        reflectivity: 0.9,
+        envMapIntensity: 1.4,
         emissive: new THREE.Color(asset.color),
         emissiveIntensity: 0.08,
-        side: THREE.DoubleSide,
       });
 
-      const bodyGeo = new THREE.CylinderGeometry(size, size, size * 0.15, 64);
-      const body = new THREE.Mesh(bodyGeo, material);
-      body.castShadow = true;
-      body.receiveShadow = true;
-      body.rotation.x = Math.PI / 2;
-      group.add(body);
+      const geo = new THREE.CylinderGeometry(size, size, size * 0.15, 48);
+      const mesh = new THREE.Mesh(geo, material);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.rotation.x = Math.PI / 2;
+      group.add(mesh);
 
-      // Outer metallic ring
-      const ringGeo = new THREE.TorusGeometry(size * 1.05, size * 0.06, 32, 64);
-      const ringMat = new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(asset.color).lerp(new THREE.Color(0xffffff), 0.3),
-        metalness: 0.95,
-        roughness: 0.15,
-        emissive: new THREE.Color(asset.color),
-        emissiveIntensity: 0.1,
-        envMapIntensity: 2,
-      });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.rotation.x = Math.PI / 2;
-      group.add(ring);
-
-      // Glow ring
-      const glowRingGeo = new THREE.TorusGeometry(size * 0.95, size * 0.02, 24, 48);
-      const glowRingMat = new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        emissive: new THREE.Color(asset.color),
-        emissiveIntensity: 0.6,
-        transparent: true,
-        opacity: 0.5,
-        blending: THREE.AdditiveBlending,
-      });
-      const glowRing = new THREE.Mesh(glowRingGeo, glowRingMat);
-      glowRing.rotation.x = Math.PI / 2;
-      glowRing.position.z = 0.001;
-      group.add(glowRing);
-
-      // Label CSS2D
       const div = document.createElement('div');
       div.textContent = asset.label;
       div.style.color = '#fff';
-      div.style.fontSize = '12px';
-      div.style.fontWeight = '500';
+      div.style.fontSize = '14px';
+      div.style.fontWeight = '600';
       div.style.fontFamily = 'Inter, sans-serif';
-      div.style.background = 'rgba(0,0,0,0.4)';
-      div.style.backdropFilter = 'blur(6px)';
-      div.style.padding = '2px 10px';
-      div.style.borderRadius = '20px';
-      div.style.border = '1px solid rgba(255,255,255,0.1)';
+      div.style.background = 'rgba(0,0,0,0.5)';
+      div.style.backdropFilter = 'blur(8px)';
+      div.style.padding = '4px 14px';
+      div.style.borderRadius = '40px';
+      div.style.border = '1px solid rgba(255,255,255,0.08)';
       div.style.pointerEvents = 'none';
       const label = new CSS2DObject(div);
-      label.position.set(0, -size * 0.7, 0);
+      label.position.set(0, -size * 0.8, 0);
       group.add(label);
 
       group.position.set(asset.position[0], asset.position[1], asset.position[2]);
@@ -276,16 +188,13 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
         rotSpeed: 0.3 + Math.random() * 0.3,
         floatAmp: 0.08 + Math.random() * 0.06,
         baseY: asset.position[1],
-        material,
-        ringMat,
-        glowRingMat,
       };
+
       return group;
     };
 
-    // Tambahkan semua koin
     [...forexAssets, ...cryptoAssets].forEach((asset) => {
-      const coin = createPremiumCoin(asset);
+      const coin = createCoin(asset);
       scene.add(coin);
       coinObjects.push(coin);
     });
@@ -320,7 +229,6 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
     goldDiv.style.padding = '2px 12px';
     goldDiv.style.borderRadius = '30px';
     goldDiv.style.border = '1px solid rgba(255,215,0,0.2)';
-    goldDiv.style.textShadow = '0 0 20px rgba(255,215,0,0.2)';
     goldDiv.style.pointerEvents = 'none';
     const goldLabel = new CSS2DObject(goldDiv);
     goldLabel.position.set(0, -0.5, 0);
@@ -338,20 +246,6 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
     scene.add(goldGroup);
     coinObjects.push(goldGroup);
 
-    // Decorative ring
-    const ringPoints = [];
-    for (let i = 0; i <= 64; i++) {
-      const theta = (i / 64) * Math.PI * 2;
-      ringPoints.push(new THREE.Vector3(Math.cos(theta) * 4.2, -0.2, Math.sin(theta) * 4.2));
-    }
-    const ringGeo2 = new THREE.BufferGeometry().setFromPoints(ringPoints);
-    const ringLine = new THREE.Line(ringGeo2, new THREE.LineBasicMaterial({
-      color: 0xf5c842,
-      transparent: true,
-      opacity: 0.08,
-    }));
-    scene.add(ringLine);
-
     // Raycaster
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
@@ -359,7 +253,6 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
 
     renderer.domElement.style.pointerEvents = 'auto';
 
-    // Click handler
     renderer.domElement.addEventListener('click', (event) => {
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -375,9 +268,7 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
       const intersects = raycaster.intersectObjects(meshes);
       if (intersects.length > 0) {
         let parent = intersects[0].object.parent;
-        while (parent && !parent.userData?.asset) {
-          parent = parent.parent;
-        }
+        while (parent && !parent.userData?.asset) parent = parent.parent;
         if (parent && parent.userData?.asset) {
           const asset = parent.userData.asset;
           onAssetClick?.(asset.symbol, asset.type);
@@ -385,7 +276,6 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
       }
     });
 
-    // Hover handler (FIXED — with type guard)
     renderer.domElement.addEventListener('mousemove', (event) => {
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -401,19 +291,14 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
       const intersects = raycaster.intersectObjects(meshes);
       renderer.domElement.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
 
-      // Reset hovered coin
       if (hoveredCoin) {
         const ud = hoveredCoin.userData;
         if (ud?.material) ud.material.emissiveIntensity = 0.08;
         hoveredCoin = null;
       }
-
       if (intersects.length > 0) {
         let parent = intersects[0].object.parent;
-        while (parent && !parent.userData?.asset) {
-          parent = parent.parent;
-        }
-        // ✅ TYPE GUARD — pastikan parent adalah Group
+        while (parent && !parent.userData?.asset) parent = parent.parent;
         if (parent && parent.type === 'Group') {
           hoveredCoin = parent as THREE.Group;
           const ud = parent.userData;
@@ -422,26 +307,19 @@ export default function GalaxySceneContent({ onAssetClick }: GalaxySceneContentP
       }
     });
 
-    // Animasi
+    // Animation
     const clock = new THREE.Clock();
-
     function animate() {
       const t = clock.getElapsedTime();
-
       coinObjects.forEach((obj) => {
         const ud = obj.userData;
         if (ud?.floatOffset !== undefined) {
           const float = Math.sin(t * 0.8 + ud.floatOffset) * ud.floatAmp;
           obj.position.y = ud.baseY + float;
           obj.rotation.y += ud.rotSpeed * 0.008;
-          if (ud.glowRingMat) {
-            ud.glowRingMat.opacity = 0.4 + Math.sin(t * 1.5 + ud.floatOffset) * 0.2;
-          }
         }
       });
-
       goldMat.emissiveIntensity = 0.04 + Math.sin(t * 0.6) * 0.02;
-
       controls.update();
       renderer.render(scene, camera);
       labelRenderer.render(scene, camera);
