@@ -5,7 +5,6 @@ import { getForexRates } from '../../../services/forex';
 import CardPremium from '../../../components/ui/card-premium';
 import PriceChart from '../../../components/charts/price-chart';
 import Converter from '../../../components/ui/converter';
-import CoinDisplay from '../../../components/ui/coin-display';
 import { motion } from 'framer-motion';
 
 export default function CurrencyDetailClient({ symbol }: { symbol: string }) {
@@ -16,74 +15,43 @@ export default function CurrencyDetailClient({ symbol }: { symbol: string }) {
   });
 
   const map: Record<string, { pair: string; rate: number; color: string; label: string }> = {
-    usd: { pair: 'USD/IDR', rate: data?.usdIdr || 0, color: '#f5c842', label: 'Dollar' },
+    usd: { pair: 'USD/IDR', rate: data?.usdIdr || 0, color: '#f5c842', label: 'US Dollar' },
     eur: { pair: 'EUR/IDR', rate: data?.eurIdr || 0, color: '#4a8fe7', label: 'Euro' },
-    gbp: { pair: 'GBP/IDR', rate: data?.gbpIdr || 0, color: '#2d8b7a', label: 'Pound' },
-    jpy: { pair: 'JPY/IDR', rate: data?.jpyIdr || 0, color: '#d43f3f', label: 'Yen' },
-    aud: { pair: 'AUD/IDR', rate: data?.audIdr || 0, color: '#cc7a3a', label: 'Dollar' },
-    chf: { pair: 'CHF/IDR', rate: data?.usdIdr || 0, color: '#bf1e1e', label: 'Franc' },
-    cny: { pair: 'CNY/IDR', rate: data?.usdIdr || 0, color: '#c41e3a', label: 'Yuan' },
+    gbp: { pair: 'GBP/IDR', rate: data?.gbpIdr || 0, color: '#2d8b7a', label: 'British Pound' },
+    jpy: { pair: 'JPY/IDR', rate: data?.jpyIdr || 0, color: '#d43f3f', label: 'Japanese Yen' },
+    aud: { pair: 'AUD/IDR', rate: data?.audIdr || 0, color: '#cc7a3a', label: 'Australian Dollar' },
+    chf: { pair: 'CHF/IDR', rate: data?.usdIdr || 0, color: '#bf1e1e', label: 'Swiss Franc' },
+    cny: { pair: 'CNY/IDR', rate: data?.usdIdr || 0, color: '#c41e3a', label: 'Chinese Yuan' },
   };
 
   const info = map[symbol.toLowerCase()];
 
   return (
-    <div className="min-h-screen bg-gradient-primary pt-[72px] px-4 md:px-8 py-12">
+    <div className="min-h-screen bg-gradient-primary pt-[88px] px-4 md:px-8 pb-12">
       <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8"
-        >
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-gold">
-                <span className="text-[#0b0d1a] text-lg font-bold font-display">C</span>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-gradient-gold font-display">
-                {symbol.toUpperCase()} / IDR
-              </h1>
-            </div>
-            <p className="text-white/40 text-lg mt-2 font-light">{info?.pair}</p>
-          </div>
-          <div className="w-[160px] h-[160px]">
-            <CoinDisplay symbol={symbol.toUpperCase()} label={info?.label || ''} color={info?.color || '#fff'} />
-          </div>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-white font-display">
+            {symbol.toUpperCase()} / IDR
+          </h1>
+          <p className="text-white/40 text-sm mt-1">{info?.pair} · {info?.label}</p>
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
+        <div className="mb-8">
           <CardPremium
             title={info?.pair || ''}
             value={info?.rate ? info.rate.toLocaleString('id-ID') : '...'}
-            change="+0.14%"
+            change="+0.42%"
             positive
             loading={isLoading}
             color={info?.color}
             large
           />
-        </motion.div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mt-8 glass rounded-2xl p-6"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <PriceChart symbol={`${symbol.toUpperCase()}/IDR`} />
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-8"
-        >
           <Converter defaultFrom={symbol.toUpperCase()} defaultTo="IDR" />
-        </motion.div>
+        </div>
       </div>
     </div>
   );
