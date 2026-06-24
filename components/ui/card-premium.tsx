@@ -32,31 +32,26 @@ export default function CardPremium({
 }: CardPremiumProps) {
   return (
     <motion.div
-      whileHover={{ scale: 1.02, y: -6 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ duration: 0.3 }}
       onClick={onClick}
       className={cn(
         'relative overflow-hidden rounded-2xl p-6 transition-all duration-300 cursor-pointer',
-        'bg-white/5 backdrop-blur-xl border border-white/5',
-        'hover:border-white/15 hover:bg-white/8',
-        gold && 'border-gold/20 hover:border-gold/40 hover:shadow-gold',
+        'glass',
+        gold && 'border-gold/20 hover:border-gold/40',
         large && 'p-8',
         className
       )}
     >
-      {gold && (
-        <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-      )}
-      
+      {gold && <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />}
       <div className="relative z-10">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold" style={{ color }}>{title}</h3>
             {subtitle && <p className="text-sm text-white/40">{subtitle}</p>}
           </div>
-          {gold && <span className="text-3xl animate-glow">🏆</span>}
+          {gold && <span className="text-3xl">🏆</span>}
         </div>
-
         <div className="mt-3">
           {loading ? (
             <div className="h-8 w-32 bg-white/5 rounded animate-pulse" />
@@ -66,7 +61,6 @@ export default function CardPremium({
             </p>
           )}
         </div>
-
         {change && (
           <div className="mt-2">
             <span className={cn(
@@ -78,9 +72,6 @@ export default function CardPremium({
           </div>
         )}
       </div>
-
-      {/* Glow effect on hover */}
-      <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
     </motion.div>
   );
 }
