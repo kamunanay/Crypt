@@ -16,6 +16,8 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         gold: { DEFAULT: "#f5c842", 400: "#f7cf3f", 500: "#f5c842", 600: "#d4a020" },
+        green: { 400: "#4cd9a0" },
+        red: { 400: "#f87171" },
       },
       fontFamily: {
         display: ['Inter', 'system-ui', 'sans-serif'],
@@ -23,12 +25,10 @@ module.exports = {
       keyframes: {
         pulse: { "0%,100%": { opacity: 1 }, "50%": { opacity: 0.5 } },
         shimmer: { "0%": { backgroundPosition: "-200% 0" }, "100%": { backgroundPosition: "200% 0" } },
-        slideUp: { "0%": { opacity: 0, transform: "translateY(30px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },
       },
       animation: {
         pulse: "pulse 2s ease-in-out infinite",
         shimmer: "shimmer 3s linear infinite",
-        slideUp: "slideUp 0.6s ease-out forwards",
       },
     },
   },
