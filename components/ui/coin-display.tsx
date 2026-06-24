@@ -7,7 +7,7 @@ const PremiumCoin3D = dynamic(
   { 
     ssr: false, 
     loading: () => (
-      <div className="w-full h-full flex items-center justify-center bg-[#0a0a1a] rounded-2xl">
+      <div className="w-full h-full flex items-center justify-center bg-[#0a0a1a] rounded-2xl border border-white/5">
         <div className="text-gold/50 animate-pulse text-sm">Loading 3D Coin...</div>
       </div>
     ) 
