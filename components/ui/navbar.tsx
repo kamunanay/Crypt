@@ -31,9 +31,9 @@ export default function Navbar() {
     )}>
       <Link href="/" className="flex items-center gap-3 group">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-lg shadow-gold/20 group-hover:scale-105 transition-transform">
-          <span className="text-[#0b0d1a] text-xl font-bold font-display">C</span>
+          <span className="text-[#0b0d1a] text-xl font-bold">C</span>
         </div>
-        <span className="text-2xl font-bold text-gold font-display tracking-tight">
+        <span className="text-2xl font-bold text-gold tracking-tight">
           CUKIMAI
         </span>
       </Link>
