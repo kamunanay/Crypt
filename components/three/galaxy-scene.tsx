@@ -12,24 +12,12 @@ const GalaxySceneContent = dynamic(() => import('./galaxy-scene-content'), {
   ),
 });
 
-interface GalaxySceneProps {
-  onAssetClick?: (symbol: string, type: 'forex' | 'crypto' | 'gold') => void;
-}
-
-export default function GalaxyScene({ onAssetClick }: GalaxySceneProps) {
+export default function GalaxyScene({ onAssetClick }: { onAssetClick?: (symbol: string, type: string) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-[#070912]">
-        <div className="text-gold text-lg">Loading Financial Galaxy...</div>
-      </div>
-    );
+    return <div className="w-full h-full flex items-center justify-center bg-[#070912]"><div className="text-gold text-lg">Loading Financial Galaxy...</div></div>;
   }
-  return (
-    <div ref={containerRef} className="w-full h-full">
-      <GalaxySceneContent onAssetClick={onAssetClick} />
-    </div>
-  );
+  return <div ref={containerRef} className="w-full h-full"><GalaxySceneContent onAssetClick={onAssetClick} /></div>;
 }
