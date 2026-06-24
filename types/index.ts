@@ -6,15 +6,8 @@ export interface ForexData {
   audIdr: number;
 }
 
-export interface CryptoPrice {
-  usd: number;
-  usd_24h_change: number;
-}
-
 export interface CryptoData {
-  [key: string]: CryptoPrice;
+  [key: string]: { usd: number; usd_24h_change: number };
 }
 
-export interface GoldData {
-  price: number;
-}
+export interface GoldData { price: number; }
