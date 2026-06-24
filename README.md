@@ -85,8 +85,7 @@
 | **Deployment** | Cloudflare Pages (Static Export) |
 
 ---
-
-cukimai/
+crypt/
 ├── app/ # Next.js App Router
 │ ├── (routes)/ # Halaman-halaman
 │ │ ├── page.tsx # Beranda — Galaxy 3D
@@ -123,9 +122,6 @@ cukimai/
 ├── tsconfig.json
 ├── tailwind.config.js
 └── README.md
-
-text
-
 ---
 
 ## 🚀 Deploy ke Cloudflare Pages
