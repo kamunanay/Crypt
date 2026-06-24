@@ -13,6 +13,7 @@ interface CardPremiumProps {
   color?: string;
   gold?: boolean;
   large?: boolean;
+  icon?: React.ReactNode;
   className?: string;
   onClick?: () => void;
 }
@@ -27,6 +28,7 @@ export default function CardPremium({
   color = '#ffffff',
   gold = false,
   large = false,
+  icon,
   className,
   onClick,
 }: CardPremiumProps) {
@@ -46,9 +48,12 @@ export default function CardPremium({
       {gold && <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />}
       <div className="relative z-10">
         <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold" style={{ color }}>{title}</h3>
-            {subtitle && <p className="text-sm text-white/40">{subtitle}</p>}
+          <div className="flex items-center gap-3">
+            {icon && <div className="text-2xl">{icon}</div>}
+            <div>
+              <h3 className="text-lg font-semibold" style={{ color }}>{title}</h3>
+              {subtitle && <p className="text-sm text-white/40">{subtitle}</p>}
+            </div>
           </div>
           {gold && <span className="text-3xl">🏆</span>}
         </div>
