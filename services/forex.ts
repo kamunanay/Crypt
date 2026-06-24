@@ -3,58 +3,19 @@ import { ForexData } from '../types';
 
 export async function getForexRates(): Promise<ForexData> {
   try {
-    // Free API tanpa key — exchangerate-api.com
-    const response = await axios.get('https://api.exchangerate-api.com/v4/latest/USD', {
-      timeout: 10000,
-    });
-    
-    if (response.status !== 200 || !response.data?.rates) {
-      return getFallbackData();
-    }
-
-    const rates = response.data.rates;
-    const usdIdr = rates.IDR || 17863.85;
-    const eurRate = rates.EUR || 1;
-    const gbpRate = rates.GBP || 1;
-    const jpyRate = rates.JPY || 1;
-    const audRate = rates.AUD || 1;
-
+    const res = await axios.get('https://api.exchangerate-api.com/v4/latest/USD');
+    if (res.status !== 200 || !res.data?.rates) return getFallback();
+    const r = res.data.rates;
     return {
-      usdIdr: usdIdr,
-      eurIdr: usdIdr / eurRate,
-      gbpIdr: usdIdr / gbpRate,
-      jpyIdr: usdIdr / jpyRate,
-      audIdr: usdIdr / audRate,
+      usdIdr: r.IDR || 16322.45,
+      eurIdr: (r.IDR || 16322.45) / (r.EUR || 1),
+      gbpIdr: (r.IDR || 16322.45) / (r.GBP || 1),
+      jpyIdr: (r.IDR || 16322.45) / (r.JPY || 1),
+      audIdr: (r.IDR || 16322.45) / (r.AUD || 1),
     };
-  } catch (error) {
-    console.error('Error fetching forex rates:', error);
-    return getFallbackData();
-  }
+  } catch { return getFallback(); }
 }
 
-function getFallbackData(): ForexData {
-   return { 
-    usdIdr: 17863.85,
-    eurIdr: 17603.21, 
-    gbpIdr: 20651.32, 
-    jpyIdr: 104.52, 
-    audIdr: 10656.21 
-  };
-}
-
-export async function getCurrencyRate(from: string, to: string): Promise<number> {
-  const rates = await getForexRates();
-  const rateMap: Record<string, number> = {
-    USD: 1,
-    IDR: 1 / rates.usdIdr,
-    EUR: 1 / rates.eurIdr,
-    GBP: 1 / rates.gbpIdr,
-    JPY: 1 / rates.jpyIdr,
-    AUD: 1 / rates.audIdr,
-    CHF: 1 / 16500,
-    CNY: 1 / 2250,
-  };
-  const fromRate = rateMap[from] || 1;
-  const toRate = rateMap[to] || 1;
-  return fromRate / toRate;
+function getFallback(): ForexData {
+  return { usdIdr: 16322.45, eurIdr: 17603.21, gbpIdr: 20651.32, jpyIdr: 104.52, audIdr: 10656.21 };
 }
