@@ -6,10 +6,10 @@ import { getForexRates } from '../../services/forex';
 
 const currencies = ['USD', 'IDR', 'EUR', 'GBP', 'JPY', 'AUD', 'CHF', 'CNY'];
 
-export default function Converter({ defaultFrom = 'IDR', defaultTo = 'USD' }) {
-  const [from, setFrom] = useState(defaultFrom);
-  const [to, setTo] = useState(defaultTo);
-  const [amount, setAmount] = useState<number | string>(100000);
+export default function Converter() {
+  const [from, setFrom] = useState('USD');
+  const [to, setTo] = useState('IDR');
+  const [amount, setAmount] = useState<number | string>(1);
   const [result, setResult] = useState<number>(0);
   const { data, isLoading } = useQuery({
     queryKey: ['forex'],
@@ -86,6 +86,9 @@ export default function Converter({ defaultFrom = 'IDR', defaultTo = 'USD' }) {
             </p>
             <p className="text-sm text-white/30 mt-1">
               1 {from} = {amount && !isNaN(Number(amount)) ? (result / Number(amount)).toFixed(6) : '0.000000'} {to}
+            </p>
+            <p className="text-xs text-white/20 mt-2">
+              Kurs saat ini: 1 {from} = {result && amount ? (result / Number(amount)).toFixed(6) : '0.000000'} {to}
             </p>
           </>
         )}
