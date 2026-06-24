@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://cukimai.store/favicon.ico" alt="CUKIMAI Logo" width="80" />
+  <img src="https://cukimai.store" alt="CUKIMAI Logo" width="80" />
   <h1>🌌 CUKIMAI — World Financial Galaxy</h1>
   <p><strong>Financial Galaxy dengan Aset 3D Interaktif • Real-time Market Data • Premium UI</strong></p>
   
