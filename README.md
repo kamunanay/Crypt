@@ -85,45 +85,6 @@
 | **Deployment** | Cloudflare Pages (Static Export) |
 
 ---
-
-crypt/
-├── app/ # Next.js App Router
-│ ├── (routes)/ # Halaman-halaman
-│ │ ├── page.tsx # Beranda — Galaxy 3D
-│ │ ├── forex/page.tsx # Halaman Forex
-│ │ ├── crypto/page.tsx # Halaman Crypto
-│ │ ├── emas/page.tsx # Halaman Emas
-│ │ ├── currency/[symbol]/ # Detail Currency
-│ │ └── crypto/[symbol]/ # Detail Crypto
-│ ├── layout.tsx
-│ ├── globals.css
-│ └── providers.tsx
-├── components/
-│ ├── ui/ # UI Components
-│ │ ├── navbar.tsx
-│ │ ├── card-premium.tsx
-│ │ ├── converter.tsx
-│ │ └── coin-display.tsx
-│ ├── three/ # 3D Components
-│ │ ├── galaxy-scene.tsx
-│ │ ├── galaxy-scene-content.tsx
-│ │ └── premium-coin.tsx
-│ └── charts/
-│ └── price-chart.tsx
-├── services/ # API Services
-│ ├── forex.ts # Forex (exchangerate-api.com)
-│ ├── crypto.ts # Crypto (CoinGecko)
-│ └── gold.ts # Gold (Gold-API)
-├── lib/ # Utilities
-├── types/ # TypeScript types
-├── public/
-│ └── _redirects # SPA routing fallback
-├── next.config.js
-├── package.json
-├── tsconfig.json
-├── tailwind.config.js
-└── README.md
-
 ---
 
 ## 🚀 Deploy ke Cloudflare Pages
@@ -198,4 +159,5 @@ Website: cukimai.store
 
 Email: support@cukimai.store
 
-<div align="center"> <h3>✨ CUKIMAI — World Financial Galaxy ✨</h3> <p>Made with ❤️ and ☕</p> </div> ```
+<div align="center"> <h3>✨ CUKIMAI — World Financial Galaxy ✨</h3> <p>Made with ❤️ and ☕</p> </div>
+```
