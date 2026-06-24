@@ -39,6 +39,9 @@
   .bg-gradient-primary {
     background: radial-gradient(ellipse at 20% 30%, #1a1f3a, #0b0d1a 70%, #05070e);
   }
+  .bg-gradient-glow {
+    background: radial-gradient(ellipse at 50% 0%, rgba(245, 200, 66, 0.06) 0%, transparent 70%);
+  }
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
