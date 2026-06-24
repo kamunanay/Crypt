@@ -85,6 +85,7 @@
 | **Deployment** | Cloudflare Pages (Static Export) |
 
 ---
+
 crypt/
 ├── app/ # Next.js App Router
 │ ├── (routes)/ # Halaman-halaman
@@ -122,6 +123,7 @@ crypt/
 ├── tsconfig.json
 ├── tailwind.config.js
 └── README.md
+
 ---
 
 ## 🚀 Deploy ke Cloudflare Pages
