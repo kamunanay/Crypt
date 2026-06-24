@@ -3,13 +3,11 @@ import { CryptoData } from '../types';
 
 export async function getCryptoPrices(): Promise<CryptoData> {
   try {
-    const response = await axios.get(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,bnb&vs_currencies=usd&include_24hr_change=true',
-      { timeout: 10000 }
+    const res = await axios.get(
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,bnb&vs_currencies=usd&include_24hr_change=true'
     );
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching crypto prices:', error);
+    return res.data;
+  } catch {
     return {
       bitcoin: { usd: 67812.45, usd_24h_change: 2.35 },
       ethereum: { usd: 3456.78, usd_24h_change: 1.23 },
