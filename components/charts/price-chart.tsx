@@ -3,41 +3,24 @@
 import { useEffect, useRef } from 'react';
 import { createChart, ColorType, IChartApi, CandlestickData, Time } from 'lightweight-charts';
 
-interface PriceChartProps {
-  symbol: string;
-  timeframe?: '1D' | '1W' | '1M' | '3M' | '1Y';
-}
-
-export default function PriceChart({ symbol, timeframe = '1D' }: PriceChartProps) {
-  const chartContainerRef = useRef<HTMLDivElement>(null);
+export default function PriceChart({ symbol, timeframe = '1D' }: { symbol: string; timeframe?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
 
   useEffect(() => {
-    if (!chartContainerRef.current) return;
-    const chart = createChart(chartContainerRef.current, {
-      layout: {
-        background: { type: ColorType.Solid, color: 'rgba(0,0,0,0)' },
-        textColor: 'rgba(255,255,255,0.5)',
-      },
-      grid: {
-        vertLines: { color: 'rgba(255,255,255,0.05)' },
-        horzLines: { color: 'rgba(255,255,255,0.05)' },
-      },
-      width: chartContainerRef.current.clientWidth,
+    if (!containerRef.current) return;
+    const chart = createChart(containerRef.current, {
+      layout: { background: { type: ColorType.Solid, color: 'rgba(0,0,0,0)' }, textColor: 'rgba(255,255,255,0.5)' },
+      grid: { vertLines: { color: 'rgba(255,255,255,0.05)' }, horzLines: { color: 'rgba(255,255,255,0.05)' } },
+      width: containerRef.current.clientWidth,
       height: 300,
       rightPriceScale: { borderColor: 'rgba(255,255,255,0.1)' },
       timeScale: { borderColor: 'rgba(255,255,255,0.1)', timeVisible: true },
     });
     chartRef.current = chart;
-    const candlestickSeries = chart.addCandlestickSeries({
-      upColor: '#4cd9a0',
-      downColor: '#f87171',
-      borderUpColor: '#4cd9a0',
-      borderDownColor: '#f87171',
-      wickUpColor: '#4cd9a0',
-      wickDownColor: '#f87171',
+    const series = chart.addCandlestickSeries({
+      upColor: '#4cd9a0', downColor: '#f87171', borderUpColor: '#4cd9a0', borderDownColor: '#f87171',
     });
-
     const data: CandlestickData<Time>[] = [];
     const now = Date.now();
     const day = 24 * 60 * 60 * 1000;
@@ -53,33 +36,29 @@ export default function PriceChart({ symbol, timeframe = '1D' }: PriceChartProps
         close: price,
       });
     }
-    candlestickSeries.setData(data);
-
-    const handleResize = () => {
-      if (chartContainerRef.current && chartRef.current) {
-        chartRef.current.applyOptions({ width: chartContainerRef.current.clientWidth });
+    series.setData(data);
+    const resize = () => {
+      if (containerRef.current && chartRef.current) {
+        chartRef.current.applyOptions({ width: containerRef.current.clientWidth });
       }
     };
-    window.addEventListener('resize', handleResize);
-
+    window.addEventListener('resize', resize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', resize);
       if (chartRef.current) { chartRef.current.remove(); chartRef.current = null; }
     };
   }, [symbol, timeframe]);
 
   return (
-    <div className="rounded-2xl p-4 bg-white/5 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-300">
+    <div className="rounded-2xl overflow-hidden">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-medium text-white/60">{symbol}</span>
         <div className="flex gap-2">
           {['1D', '1W', '1M', '3M', '1Y'].map((tf) => (
             <button
               key={tf}
-              className={`text-xs px-3 py-1 rounded-full transition-all duration-300 ${
-                timeframe === tf
-                  ? 'bg-gold/20 text-gold'
-                  : 'text-white/30 hover:text-white/60 hover:bg-white/5'
+              className={`text-xs px-3 py-1 rounded-full transition-all ${
+                timeframe === tf ? 'bg-gold/20 text-gold' : 'text-white/30 hover:text-white/60'
               }`}
             >
               {tf}
@@ -87,7 +66,7 @@ export default function PriceChart({ symbol, timeframe = '1D' }: PriceChartProps
           ))}
         </div>
       </div>
-      <div ref={chartContainerRef} />
+      <div ref={containerRef} />
     </div>
   );
 }
