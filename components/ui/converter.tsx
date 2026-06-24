@@ -4,13 +4,9 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getForexRates } from '../../services/forex';
 
-interface ConverterProps {
-  defaultFrom?: string;
-  defaultTo?: string;
-}
 const currencies = ['USD', 'IDR', 'EUR', 'GBP', 'JPY', 'AUD', 'CHF', 'CNY'];
 
-export default function Converter({ defaultFrom = 'IDR', defaultTo = 'USD' }: ConverterProps) {
+export default function Converter({ defaultFrom = 'IDR', defaultTo = 'USD' }) {
   const [from, setFrom] = useState(defaultFrom);
   const [to, setTo] = useState(defaultTo);
   const [amount, setAmount] = useState<number | string>(100000);
@@ -45,21 +41,19 @@ export default function Converter({ defaultFrom = 'IDR', defaultTo = 'USD' }: Co
   }, [amount, from, to, data]);
 
   return (
-    <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-300">
-      <h3 className="text-lg font-semibold mb-4 text-gradient-gold">Konverter Mata Uang</h3>
-      
+    <div className="glass rounded-2xl p-6">
+      <h3 className="text-lg font-semibold mb-4 text-gold">Konverter Mata Uang</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="text-sm text-white/40 block mb-1">Dari</label>
           <select
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold/50 transition-all duration-300"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold/50"
           >
             {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
-
         <div>
           <label className="text-sm text-white/40 block mb-1">Jumlah</label>
           <input
@@ -68,22 +62,20 @@ export default function Converter({ defaultFrom = 'IDR', defaultTo = 'USD' }: Co
             value={amount}
             onChange={handleAmountChange}
             placeholder="Masukkan angka"
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold/50 transition-all duration-300"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold/50"
           />
         </div>
-
         <div>
           <label className="text-sm text-white/40 block mb-1">Ke</label>
           <select
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold/50 transition-all duration-300"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold/50"
           >
             {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
       </div>
-
       <div className="mt-4 text-center">
         {isLoading ? (
           <div className="animate-pulse text-white/30">Memuat data...</div>
