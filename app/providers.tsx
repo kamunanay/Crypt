@@ -10,7 +10,6 @@ export function Providers({ children }: { children: ReactNode }) {
         staleTime: 30 * 1000,
         refetchInterval: 30000,
         retry: 1,
-        refetchOnWindowFocus: true,
       },
     },
   }));
