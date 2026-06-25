@@ -9,7 +9,6 @@ import Converter from '../components/ui/converter';
 import PriceChart from '../components/charts/price-chart';
 import { motion } from 'framer-motion';
 
-// Crypto icons (emoji)
 const cryptoIcons: Record<string, string> = {
   BTC: '₿',
   ETH: '⟠',
@@ -53,7 +52,6 @@ export default function HomePage() {
     { id: 'bnb', symbol: 'BNB', color: '#f3ba2f', label: 'BNB' },
   ];
 
-  // Timestamp
   const now = new Date();
   const timestamp = now.toLocaleString('id-ID', {
     day: 'numeric',
@@ -67,12 +65,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-primary pt-[88px] px-4 md:px-8 pb-12">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-2 text-gold text-xs font-medium tracking-wider uppercase mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
             Market Overview
@@ -85,15 +78,9 @@ export default function HomePage() {
           </p>
         </motion.div>
 
-        {/* Grid Forex */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
           {pairs.map((pair, i) => (
-            <motion.div
-              key={pair.from}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-            >
+            <motion.div key={pair.from} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
               <CardPremium
                 title={`${pair.from}/${pair.to}`}
                 subtitle={pair.label}
@@ -108,43 +95,23 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Chart + Converter */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <PriceChart symbol="USD/IDR" />
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <Converter />
           </motion.div>
         </div>
 
-        {/* Crypto Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mb-8">
           <h2 className="text-2xl font-bold text-white font-display mb-4">Cryptocurrency</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {cryptos.map((crypto, i) => {
               const price = cryptoData?.[crypto.id]?.usd;
               const change = cryptoData?.[crypto.id]?.usd_24h_change;
               return (
-                <motion.div
-                  key={crypto.symbol}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * i + 0.5 }}
-                >
+                <motion.div key={crypto.symbol} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * i + 0.5 }}>
                   <CardPremium
                     title={crypto.symbol}
                     subtitle={crypto.label}
@@ -162,12 +129,7 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* Gold Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
           <h2 className="text-2xl font-bold text-white font-display mb-4">Emas (XAU/USD)</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <CardPremium
@@ -193,7 +155,6 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* Footer timestamp */}
         <div className="mt-8 text-center text-white/20 text-xs font-light tracking-wider">
           Data diperbarui secara real-time • {timestamp} WIB
         </div>
