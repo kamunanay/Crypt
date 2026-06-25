@@ -10,4 +10,6 @@ export interface CryptoData {
   [key: string]: { usd: number; usd_24h_change: number };
 }
 
-export interface GoldData { price: number; }
+export interface GoldData {
+  price: number;
+}
