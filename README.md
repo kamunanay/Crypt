@@ -158,6 +158,5 @@ Icons: Custom design
 Website: cukimai.store
 
 Email: support@cukimai.store
-
 <div align="center"> <h3>✨ CUKIMAI — World Financial Galaxy ✨</h3> <p>Made with ❤️ and ☕</p> </div>
 ```
